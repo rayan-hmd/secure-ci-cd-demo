@@ -15,8 +15,8 @@ def generate_logs():
     sensor_ids = [1, 2, 3, 4, 5]
     statuses = ["OK", "OK", "OK", "WARNING", "ERROR"]
     while True:
-        sensor = random.choice(sensor_ids)
-        status = random.choice(statuses)
+        sensor = random.choice(sensor_ids) # nosec
+        status = random.choice(statuses)   # nosec
         timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[SYSTEM] [{timestamp}] Sensor #{sensor}: {status}")
         time.sleep(3)
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     log_thread.start()
 
     # Start Flask web server for health checks and disable reloader for single-process behavior in Docker
-    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False) # nosec
