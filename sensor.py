@@ -29,5 +29,5 @@ if __name__ == "__main__":
     log_thread.daemon = True
     log_thread.start()
 
-    # Start Flask web server for health checks
-    app.run(host="0.0.0.0", port=5000)
+    # Start Flask web server for health checks and disable reloader for single-process behavior in Docker
+    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
