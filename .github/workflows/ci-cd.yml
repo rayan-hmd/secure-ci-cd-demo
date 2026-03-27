@@ -1,0 +1,35 @@
+name: DevSecOps Pipeline
+
+on: 
+    push:
+        branches: [ "main" ]
+
+
+jobs:
+    build-and-scan:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        # --- SAST (Static Application Security Testing) ---
+        - name: Run Bandit (Python SAST)
+          run: |
+            pip install bandit
+            bandit -r .
+
+
+        # --- Secrets Detection ---
+        - name: Run GitLeaks
+          run: gitleaks/gitleaks-action@v2
+
+        # --- Build Docker Image
+        - name: Build Docker Image
+          run: |
+            docker build -t sensor-app:latest .
+
+        # --- Container Scan ---
+        - name: Scan Docker Image (Trivy) 
+          uses: aquasecurity/trivy-action@v0.20.0
+          with:
+            image-ref: sensor-app:latest
