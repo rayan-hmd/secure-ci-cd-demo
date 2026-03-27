@@ -1,0 +1,15 @@
+# Python virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Environment files (if you have .env)
+.env
+
+# Docker (optional: if you generate local images or compose files)
+*.docker
