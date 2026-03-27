@@ -21,7 +21,7 @@ jobs:
 
         # --- Secrets Detection ---
         - name: Run GitLeaks
-          run: gitleaks/gitleaks-action@v2
+          uses: gitleaks/gitleaks-action@v2
 
         # --- Build Docker Image
         - name: Build Docker Image
