@@ -12,14 +12,39 @@ def health():
 
 # --- Function to generate logs ---
 def generate_logs():
-    sensor_ids = [1, 2, 3, 4, 5]
-    statuses = ["OK", "OK", "OK", "WARNING", "ERROR"]
+    systems = ["RADAR", "SONAR", "COMMS"]
+    statuses = ["OK", "WARNING", "ERROR"]
     while True:
-        sensor = random.choice(sensor_ids) # nosec B311
-        status = random.choice(statuses)   # nosec B311
-        timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"[SYSTEM] [{timestamp}] Sensor #{sensor}: {status}")
-        time.sleep(3)
+        # Random number of events per cycle: 1–3
+        num_events = random.randint(1, 3)
+        
+        for _ in range(num_events):
+            system = random.choice(systems)
+            status = random.choice(statuses)
+            
+            # Determine severity
+            if status == "OK":
+                severity = "INFO"
+            elif status == "WARNING":
+                severity = "WARNING"
+            else:
+                severity = "ERROR"
+            
+            timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Generate system-specific data
+            if system == "RADAR":
+                track_id = random.randint(100, 999)
+                print(f"[{severity}] [RADAR] [{timestamp}] TrackID={track_id} Status={status}", flush=True)
+            elif system == "SONAR":
+                depth = random.randint(50, 500)
+                print(f"[{severity}] [SONAR] [{timestamp}] Depth={depth}m Status={status}", flush=True)
+            elif system == "COMMS":
+                latency = random.randint(10, 300)
+                print(f"[{severity}] [COMMS] [{timestamp}] Latency={latency}ms Status={status}", flush=True)
+        
+        time.sleep(3)  # Wait 3 seconds before next batch
+
 
 # --- Run Flask in a separate thread ---
 if __name__ == "__main__":
